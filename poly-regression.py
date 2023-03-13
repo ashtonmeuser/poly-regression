@@ -28,7 +28,7 @@ def equation(features, coefficients):
 df = read_csvs([f'data/{i}.csv' for i in range(3)])
 x = df[['tick', 'v1x']]
 y = df['p2x']
-model = make_pipeline(PolynomialFeatures(degree=3), LinearRegression())
+model = make_pipeline(PolynomialFeatures(degree=3), LinearRegression(fit_intercept=False))
 model.fit(x, y)
 
 # Test
@@ -39,6 +39,7 @@ y_test = df_test[y.name]
 spot_test = pd.DataFrame(np.array([[160, 300]]), columns=x.columns)
 
 # Print results
+
 print('Predict', spot_test.to_string(index=False, header=False), '=', model.predict(spot_test))
 print('Score train:', model.score(x, y))
 print('Score test:', model.score(x_test, y_test))
