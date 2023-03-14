@@ -25,9 +25,9 @@ def equation(features, coefficients):
 
 # Load data
 
-df = read_csvs(['data/apex_time/0.csv'])
-x = df[['v1y']]
-y = df['tick']
+df = read_csvs(['data/player_launch/0.csv'])
+x = df[['ext', 'v1x', 'v1y', 'rot']]
+y = df['v2x']
 
 # Train
 
@@ -36,14 +36,15 @@ model.fit(x, y)
 
 # Test
 
-df_test = pd.read_csv('data/apex_time/1.csv')
+df_test = pd.read_csv('data/player_launch/2.csv')
 x_test = df_test[x.columns]
 y_test = df_test[y.name]
-spot_test = pd.DataFrame(np.array([[-300]]), columns=x.columns)
+x_spot = [-300]
+spot_test = None if len(x_spot) != x.shape[0] else pd.DataFrame(np.array([[-300]]), columns=x.columns)
 
 # Print results
 
-print('Predict', spot_test.to_string(index=False, header=False), '=', model.predict(spot_test))
+if spot_test: print('Predict', spot_test.to_string(index=False, header=False), '=', model.predict(spot_test))
 print('Score train:', model.score(x, y))
 print('Score test:', model.score(x_test, y_test))
 
