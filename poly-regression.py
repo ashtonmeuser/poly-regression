@@ -23,20 +23,23 @@ def equation(features, coefficients):
   features = map(format_feature, features)
   return ' + '.join([f'{i}{j}' for i, j in zip(coefficients, features) if i])
 
+# Load data
+
+df = read_csvs(['data/apex_time/0.csv'])
+x = df[['v1y']]
+y = df['tick']
+
 # Train
 
-df = read_csvs([f'data/{i}.csv' for i in range(3)])
-x = df[['tick', 'v1x']]
-y = df['p2x']
-model = make_pipeline(PolynomialFeatures(degree=3), LinearRegression(fit_intercept=False))
+model = make_pipeline(PolynomialFeatures(degree=2), LinearRegression(fit_intercept=False))
 model.fit(x, y)
 
 # Test
 
-df_test = pd.read_csv('data/3.csv')
+df_test = pd.read_csv('data/apex_time/1.csv')
 x_test = df_test[x.columns]
 y_test = df_test[y.name]
-spot_test = pd.DataFrame(np.array([[160, 300]]), columns=x.columns)
+spot_test = pd.DataFrame(np.array([[-300]]), columns=x.columns)
 
 # Print results
 
